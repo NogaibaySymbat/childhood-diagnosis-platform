@@ -1,18 +1,11 @@
 # Childhood Diagnosis Platform
 
-## Team
-- @NogaibaySymbat
-- @Janattie
-- @arrushhhh
+Development of an Intelligent Platform for Preliminary Diagnosis of Childhood Diseases
 
-## Project Structure
-```text
-docs/
-diagrams/
-  src/
-  export/
-prototype/
-src/
-tests/
-config/
-```
+## Team
+- Nogaibay Symbat
+- Sagynbaeva Zhanat
+- Sabyr Aruzhan
+
+## Current Status
+Preparation of documentation, requirements, and project architecture.
