@@ -1,0 +1,517 @@
+<title>KidCheck App Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single phone device fixed on a warm sand ground; app screens swap inside it, driven by a bottom tab bar plus in-screen actions. Side rail lists every screen for review. Single-theme by design — a soft nursery palette that must stay warm on any host background. */
+:root{
+  --sand:#EFDCC8;
+  --cream:#FDF4EB;
+  --surface:#FFFCF7;
+  --mint:#CFE7E0;
+  --mint-2:#E3F1ED;
+  --mint-3:#B6D9CF;
+  --blush:#F7DED6;
+  --ink:#13463F;
+  --ink-2:#2C6158;
+  --ink-soft:#7E9A93;
+  --line:#EBDCCB;
+  --clay:#C05740;
+  --clay-soft:#FAE3DC;
+  --honey:#A9752A;
+  --honey-soft:#F8EAD2;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Jost','Segoe UI',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--sand);color:var(--ink);font-family:var(--font-body);line-height:1.5;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--sand)}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:500;margin:0;text-wrap:balance;line-height:1.14;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink-2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---- page shell ---- */
+.wrap{max-width:1060px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:26px 56px;
+  display:grid;grid-template-columns:1fr 300px;gap:34px;align-items:start}
+@media (max-width:880px){.wrap{grid-template-columns:1fr;gap:24px}}
+
+.meta .kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-2);opacity:.7}
+.meta h1{font-size:clamp(28px,4.2vw,38px);margin-top:9px}
+.meta h1 em{font-style:italic}
+.meta p{font-size:14px;color:var(--ink-2);max-width:34ch;margin:12px 0 0}
+.rail{display:flex;flex-direction:column;gap:6px;margin-top:22px}
+.rail button{display:flex;align-items:center;gap:11px;background:transparent;border:1px solid transparent;border-radius:14px;padding:10px 13px;text-align:left;font-size:13.5px;color:var(--ink-2);transition:.16s;width:100%}
+.rail button:hover{background:var(--cream)}
+.rail button[aria-current="true"]{background:var(--cream);border-color:var(--line);color:var(--ink);font-weight:500}
+.rail .n{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-soft);width:16px;flex:none}
+.hint{margin-top:18px;font-size:12px;color:var(--ink-2);opacity:.75;max-width:32ch}
+
+/* ---- device ---- */
+.stage{display:flex;justify-content:center;order:-1}
+@media (max-width:880px){.stage{order:0}}
+.device{width:min(378px,100%);background:#1b2b28;border-radius:46px;padding:11px;box-shadow:0 26px 60px rgba(50,32,16,.26)}
+.viewport{position:relative;background:var(--cream);border-radius:36px;height:760px;overflow:hidden;display:flex;flex-direction:column}
+@media (max-height:820px){.viewport{height:680px}}
+.statusbar{display:flex;align-items:center;justify-content:space-between;padding:13px 24px 6px;font-family:var(--font-mono);font-size:11px;color:var(--ink);flex:none}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:94px;height:23px;border-radius:999px;background:#1b2b28;z-index:5}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:4px 18px 16px;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.app-screen{display:flex;flex-direction:column;gap:14px}
+
+/* ---- app chrome ---- */
+.topbar{display:flex;align-items:center;gap:10px;padding-top:4px}
+.topbar .back{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:14px;flex:none}
+.topbar h2{font-size:17px;flex:1;min-width:0}
+.brand{font-weight:500;font-size:19px;letter-spacing:-.02em}
+.brand em{font-style:italic;font-family:var(--font-display)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:12px;font-weight:500;flex:none}
+.eyebrow{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+
+.hero{position:relative;background:var(--mint);border-radius:26px;padding:20px;overflow:hidden}
+.hero::after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.42);right:-52px;bottom:-66px}
+.hero::before{content:"";position:absolute;width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.34);right:92px;top:-34px}
+.hero > *{position:relative}
+.hero h1{font-size:28px;line-height:1.08}
+.hero h1 em{font-style:italic}
+.hero p{margin:9px 0 0;font-size:13px;color:var(--ink-2)}
+
+.card{background:var(--surface);border-radius:20px;padding:16px}
+.child{display:flex;gap:11px;align-items:center}
+.child-av{width:44px;height:44px;border-radius:15px;background:var(--blush);display:grid;place-items:center;font-size:20px;flex:none}
+.child-name{font-family:var(--font-display);font-size:17px}
+.child-meta{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+.btn{background:var(--ink);color:var(--cream);border:0;border-radius:999px;padding:15px 26px;font-size:12.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;width:100%;transition:.16s}
+.btn:hover{background:var(--ink-2)}
+.btn-soft{background:var(--mint);color:var(--ink);border:0;border-radius:999px;padding:13px 22px;font-size:12.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;width:100%}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink-2);border-radius:999px;padding:8px 15px;font-size:12px}
+.btn-ghost:hover{background:var(--mint-2)}
+
+.search{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:12px 16px}
+.search input{border:0;background:transparent;font:inherit;font-size:14px;color:inherit;flex:1;min-width:0;outline:none}
+.search input::placeholder{color:var(--ink-soft)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--mint-2);border-radius:999px;padding:6px 10px 6px 13px;font-size:12.5px}
+.chip b{font-weight:500;font-variant-numeric:tabular-nums}
+.chip button{background:none;border:0;color:var(--ink-soft);font-size:14px;line-height:1;padding:0}
+
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid transparent;border-radius:17px;padding:13px 14px;font-size:13.5px;text-align:left;width:100%;min-width:0}
+.row[aria-pressed="true"]{background:var(--mint);border-color:var(--mint-3);font-weight:500}
+.row .ic{font-size:17px;flex:none}
+.row .box{width:20px;height:20px;border-radius:7px;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;color:var(--cream);margin-left:auto}
+.row[aria-pressed="true"] .box{background:var(--ink);border-color:var(--ink)}
+.row .go{margin-left:auto;color:var(--ink-soft);flex:none}
+.row .txt{min-width:0;flex:1}
+.row .txt b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .txt small{display:block;font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+.seg{display:flex;flex-wrap:wrap;gap:7px}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 15px;font-size:12.5px;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--mint);border-color:var(--mint-3);color:var(--ink);font-weight:500}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{border-radius:19px;padding:14px;min-width:0}
+.tile .ic{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.62);display:grid;place-items:center;font-size:16px;margin-bottom:9px}
+.tile b{display:block;font-family:var(--font-display);font-size:14.5px;font-weight:500;margin-bottom:2px}
+.tile small{font-size:11px;color:var(--ink-2);line-height:1.42;display:block}
+.t-mint{background:var(--mint-2)}
+.t-blush{background:var(--blush)}
+.t-sand{background:#F6E8D8}
+.t-sage{background:#E2EBDC}
+
+.note{border-radius:17px;padding:13px 15px;font-size:12px;line-height:1.5;display:flex;gap:9px}
+.note i{font-style:normal;flex:none;font-size:14px}
+.note-honey{background:var(--honey-soft);color:var(--honey)}
+.note-clay{background:var(--clay-soft);color:var(--clay)}
+.note-mint{background:var(--mint-2);color:var(--ink-2)}
+
+.verdict{background:var(--honey-soft);border-radius:21px;padding:17px 18px;display:flex;gap:12px;align-items:center}
+.verdict span.ic{font-size:21px;flex:none}
+.verdict strong{font-family:var(--font-display);font-size:17px;font-weight:500;display:block;color:var(--honey);line-height:1.2}
+.verdict small{font-size:11.5px;color:var(--honey);opacity:.85}
+.dx{background:var(--surface);border-radius:20px;padding:15px 16px;display:flex;flex-direction:column;gap:9px}
+.dx-top{display:flex;gap:10px;align-items:baseline}
+.dx-top h4{font-size:17px;flex:1;min-width:0}
+.dx-pct{font-family:var(--font-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink-2);flex:none}
+.bar{height:7px;border-radius:999px;background:var(--mint-2);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--mint-3);border-radius:999px}
+.dx p{margin:0;font-size:12.5px;color:var(--ink-2)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:10.5px;padding:4px 9px;border-radius:999px;background:var(--cream);color:var(--ink-soft)}
+.tag.yes{background:var(--mint-2);color:var(--ink-2)}
+
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.steps li{display:flex;gap:10px;font-size:12.5px;align-items:flex-start;color:var(--ink-2)}
+.steps i{font-style:normal;flex:none;width:19px;height:19px;border-radius:50%;background:var(--mint);color:var(--ink);display:grid;place-items:center;font-size:10px;font-family:var(--font-mono);margin-top:1px}
+
+.chat{display:flex;flex-direction:column;gap:9px}
+.msg{max-width:84%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.45}
+.msg.them{background:var(--surface);border-bottom-left-radius:6px;align-self:flex-start}
+.msg.me{background:var(--mint);border-bottom-right-radius:6px;align-self:flex-end}
+.msg time{display:block;font-family:var(--font-mono);font-size:9.5px;color:var(--ink-soft);margin-top:5px}
+.docline{display:flex;gap:11px;align-items:center;background:var(--surface);border-radius:19px;padding:12px 14px}
+.docline .av{width:40px;height:40px;border-radius:14px;background:var(--mint-2);display:grid;place-items:center;font-size:18px;flex:none}
+.docline b{display:block;font-size:14px;font-weight:500}
+.docline small{font-size:11.5px;color:var(--ink-soft)}
+.online{width:7px;height:7px;border-radius:50%;background:#4F9E72;display:inline-block;margin-right:5px}
+
+.stat{display:flex;gap:9px}
+.stat div{flex:1;background:var(--surface);border-radius:17px;padding:13px;min-width:0}
+.stat b{font-family:var(--font-display);font-size:23px;font-weight:500;display:block;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+.stat small{font-size:10.5px;color:var(--ink-soft)}
+
+/* ---- tab bar ---- */
+.tabbar{flex:none;display:flex;background:var(--surface);border-top:1px solid var(--line);padding:9px 8px 13px}
+.tabbar button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);padding:4px 0}
+.tabbar button .ic{font-size:18px;line-height:1;opacity:.55;transition:.16s}
+.tabbar button[aria-current="true"]{color:var(--ink);font-weight:500}
+.tabbar button[aria-current="true"] .ic{opacity:1}
+.home-ind{height:4px;width:112px;border-radius:999px;background:var(--line);margin:0 auto 6px}
+</style>
+
+<div class="wrap">
+
+  <div class="stage">
+    <div class="device">
+      <div class="viewport">
+        <div class="notch"></div>
+        <div class="statusbar"><span>13:04</span><span>●●●　▮</span></div>
+
+        <div class="scroll" id="scroll">
+
+          <!-- ===== HOME ===== -->
+          <section class="app-screen" data-screen="home">
+            <div class="topbar">
+              <div class="brand">kid<em>check</em></div>
+              <div class="avatar" style="margin-left:auto">АС</div>
+            </div>
+
+            <div class="hero">
+              <h1>Спокойствие<br><em>начинается с ответа</em></h1>
+              <p>Отметьте симптомы — подскажем вероятные причины и срочность визита к врачу.</p>
+            </div>
+
+            <div class="card">
+              <div class="child">
+                <div class="child-av">🧒</div>
+                <div><div class="child-name">Алихан</div><div class="child-meta">4 года · 17 кг · мальчик</div></div>
+                <button class="btn-ghost" style="margin-left:auto">Сменить</button>
+              </div>
+              <button class="btn" data-goto="check" style="margin-top:14px">Проверить симптомы</button>
+            </div>
+
+            <div class="tiles">
+              <div class="tile t-mint"><div class="ic">🩺</div><b>Протоколы МЗ</b><small>Оценка по клиническим протоколам РК.</small></div>
+              <div class="tile t-blush"><div class="ic">👶</div><b>Возраст 0–14</b><small>Учитывает вес и возраст ребёнка.</small></div>
+              <div class="tile t-sand"><div class="ic">⏱️</div><b>Ответ за минуту</b><small>Срочность сразу после ввода.</small></div>
+              <div class="tile t-sage"><div class="ic">👨‍⚕️</div><b>Живой педиатр</b><small>Сложные случаи — врачу в чат.</small></div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Последние проверки</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row" data-goto="result"><span class="ic">🤒</span><span class="txt"><b>ОРВИ, лёгкая форма</b><small>12 сентября · наблюдение дома</small></span><span class="go">›</span></button>
+                <button class="row" data-goto="result"><span class="ic">👂</span><span class="txt"><b>Отит, направление к ЛОР</b><small>28 июля · визит к врачу</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== CHECK ===== -->
+          <section class="app-screen" data-screen="check" hidden>
+            <div class="topbar">
+              <button class="back" data-goto="home" aria-label="Назад">←</button>
+              <h2>Симптомы</h2>
+              <div class="avatar">АС</div>
+            </div>
+
+            <div class="hero" style="padding:17px 18px">
+              <h1 style="font-size:23px">Что беспокоит<br><em>Алихана?</em></h1>
+              <p style="font-size:12px">4 года · 17 кг · проверка от 20 октября</p>
+            </div>
+
+            <div class="search"><span>🔍</span><input id="symsearch" type="text" placeholder="Найти симптом…" aria-label="Поиск симптома"></div>
+
+            <div>
+              <span class="eyebrow">Выбрано · 3</span>
+              <div class="chips" style="margin-top:8px">
+                <span class="chip">Температура <b>38,5 °C</b><button aria-label="Убрать">×</button></span>
+                <span class="chip">Кашель<button aria-label="Убрать">×</button></span>
+                <span class="chip">Боль в горле<button aria-label="Убрать">×</button></span>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Частые симптомы</span>
+              <div class="list" style="margin-top:8px">
+                <button class="row" aria-pressed="true"><span class="ic">🌡️</span>Температура 38,5 °C<span class="box">✓</span></button>
+                <button class="row" aria-pressed="true"><span class="ic">😮‍💨</span>Кашель<span class="box">✓</span></button>
+                <button class="row" aria-pressed="true"><span class="ic">👅</span>Боль в горле<span class="box">✓</span></button>
+                <button class="row" aria-pressed="false"><span class="ic">👃</span>Насморк<span class="box"></span></button>
+                <button class="row" aria-pressed="false"><span class="ic">🫧</span>Сыпь<span class="box"></span></button>
+                <button class="row" aria-pressed="false"><span class="ic">🤢</span>Рвота<span class="box"></span></button>
+                <button class="row" aria-pressed="false"><span class="ic">👂</span>Боль в ухе<span class="box"></span></button>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Сколько длится</span>
+              <div class="seg" style="margin-top:8px">
+                <button aria-pressed="false">1 день</button>
+                <button aria-pressed="true">2–3 дня</button>
+                <button aria-pressed="false">Неделя</button>
+                <button aria-pressed="false">Дольше</button>
+              </div>
+            </div>
+
+            <div class="note note-honey"><i>⚠️</i><div>Приложение даёт предварительную оценку, а не диагноз.</div></div>
+
+            <button class="btn" data-goto="result">Проанализировать</button>
+          </section>
+
+          <!-- ===== RESULT ===== -->
+          <section class="app-screen" data-screen="result" hidden>
+            <div class="topbar">
+              <button class="back" data-goto="check" aria-label="Назад">←</button>
+              <h2>Результат</h2>
+              <button class="back" aria-label="Поделиться">↗</button>
+            </div>
+
+            <div class="hero" style="padding:18px">
+              <span class="eyebrow">Алихан · 20 октября</span>
+              <h1 style="font-size:24px;margin-top:7px">Вот что<br><em>вероятнее всего</em></h1>
+              <div class="chips" style="margin-top:12px">
+                <span class="chip">38,5 °C</span><span class="chip">Кашель</span><span class="chip">Горло</span><span class="chip">2–3 дня</span>
+              </div>
+            </div>
+
+            <div class="verdict">
+              <span class="ic">🕐</span>
+              <div><strong>К врачу в течение 24 часов</strong><small>Экстренная помощь не требуется</small></div>
+            </div>
+
+            <article class="dx">
+              <div class="dx-top"><h4>Острый фарингит</h4><span class="dx-pct">72 %</span></div>
+              <div class="bar"><span style="width:72%"></span></div>
+              <p>Воспаление слизистой глотки, чаще вирусной природы. Типично для детей 3–7 лет осенью.</p>
+              <div class="tags"><span class="tag yes">✓ Боль в горле</span><span class="tag yes">✓ 38,5 °C</span><span class="tag yes">✓ Кашель</span><span class="tag">— Налёт</span></div>
+            </article>
+
+            <article class="dx">
+              <div class="dx-top"><h4>ОРВИ</h4><span class="dx-pct">54 %</span></div>
+              <div class="bar"><span style="width:54%"></span></div>
+              <p>Обычно проходит за 5–7 дней при симптоматическом лечении.</p>
+              <div class="tags"><span class="tag yes">✓ Температура</span><span class="tag yes">✓ Кашель</span><span class="tag">— Насморк</span></div>
+            </article>
+
+            <article class="dx">
+              <div class="dx-top"><h4>Острый тонзиллит</h4><span class="dx-pct">31 %</span></div>
+              <div class="bar"><span style="width:31%"></span></div>
+              <p>Нужен осмотр и, возможно, экспресс-тест на стрептококк группы A.</p>
+              <div class="tags"><span class="tag yes">✓ Боль в горле</span><span class="tag">— Лимфоузлы</span></div>
+            </article>
+
+            <div class="card">
+              <span class="eyebrow">Что сделать сейчас</span>
+              <ul class="steps" style="margin-top:10px">
+                <li><i>✓</i>Обильное тёплое питьё</li>
+                <li><i>✓</i>Жаропонижающее по весу при t выше 38,5 °C</li>
+                <li><i>✓</i>Проветривание, влажность 40–60 %</li>
+                <li><i>✓</i>Измерять температуру каждые 4 часа</li>
+              </ul>
+            </div>
+
+            <div class="note note-clay"><i>🚨</i><div><b>Скорая (103), если появятся:</b> затруднённое дыхание · ребёнок не глотает слюну · судороги · сыпь, не бледнеющая при надавливании · t выше 39,5 °C не сбивается</div></div>
+
+            <button class="btn-soft" data-goto="doctor">Спросить педиатра</button>
+          </section>
+
+          <!-- ===== DOCTOR ===== -->
+          <section class="app-screen" data-screen="doctor" hidden>
+            <div class="topbar">
+              <button class="back" data-goto="result" aria-label="Назад">←</button>
+              <h2>Педиатр</h2>
+            </div>
+
+            <div class="docline">
+              <div class="av">👩‍⚕️</div>
+              <div><b>Мадина Ермаганбетова</b><small><span class="online"></span>на связи · педиатр, 11 лет стажа</small></div>
+            </div>
+
+            <div class="note note-mint"><i>📄</i><div>Врач видит результат проверки от 20 октября: фарингит 72 %, ОРВИ 54 %.</div></div>
+
+            <div class="chat">
+              <div class="msg me">Здравствуйте! Сыну 4 года, температура 38,5 третий день, жалуется на горло.<time>12:58</time></div>
+              <div class="msg them">Здравствуйте. Кашель сухой или влажный? Есть ли налёт на миндалинах, пьёт ли ребёнок нормально?<time>13:01</time></div>
+              <div class="msg me">Кашель сухой, налёта не вижу. Пьёт нормально, но ест мало.<time>13:02</time></div>
+              <div class="msg them">Похоже на вирусный фарингит. Сегодня — обильное питьё и жаропонижающее по весу. Завтра до обеда нужен очный осмотр, чтобы исключить стрептококк. Записать вас в поликлинику №3 на 10:30?<time>13:04</time></div>
+            </div>
+
+            <div class="list">
+              <button class="row"><span class="ic">📅</span><span class="txt"><b>Записаться на 10:30</b><small>Детская поликлиника №3 · 1,2 км</small></span><span class="go">›</span></button>
+            </div>
+
+            <div class="search"><input type="text" id="chatinput" placeholder="Написать сообщение…" aria-label="Сообщение"><span>➤</span></div>
+          </section>
+
+          <!-- ===== HISTORY ===== -->
+          <section class="app-screen" data-screen="history" hidden>
+            <div class="topbar">
+              <h2 style="font-size:22px">История</h2>
+              <div class="avatar" style="margin-left:auto">АС</div>
+            </div>
+
+            <div class="stat">
+              <div><span class="eyebrow">Проверок</span><b>14</b><small>за 12 месяцев</small></div>
+              <div><span class="eyebrow">Визитов</span><b>5</b><small>подтверждено врачом</small></div>
+              <div><span class="eyebrow">Точность</span><b>79 %</b><small>совпало с диагнозом</small></div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Октябрь 2026</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row" data-goto="result"><span class="ic">🤒</span><span class="txt"><b>Фарингит · 72 %</b><small>20 октября · к врачу в 24 ч</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Сентябрь 2026</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row" data-goto="result"><span class="ic">🤧</span><span class="txt"><b>ОРВИ · 81 %</b><small>12 сентября · наблюдение дома</small></span><span class="go">›</span></button>
+                <button class="row" data-goto="result"><span class="ic">🤕</span><span class="txt"><b>Головная боль · 44 %</b><small>3 сентября · наблюдение дома</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Июль 2026</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row" data-goto="result"><span class="ic">👂</span><span class="txt"><b>Отит · 74 %</b><small>28 июля · направление к ЛОР</small></span><span class="go">›</span></button>
+                <button class="row" data-goto="result"><span class="ic">🤢</span><span class="txt"><b>Кишечная инфекция · 70 %</b><small>3 мая · визит к врачу</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div class="note note-mint"><i>📊</i><div>История доступна врачу на приёме — покажите QR-код из профиля.</div></div>
+          </section>
+
+          <!-- ===== PROFILE ===== -->
+          <section class="app-screen" data-screen="profile" hidden>
+            <div class="topbar">
+              <h2 style="font-size:22px">Профиль</h2>
+            </div>
+
+            <div class="hero" style="padding:18px;text-align:center">
+              <div class="child-av" style="width:62px;height:62px;border-radius:22px;font-size:28px;margin:0 auto">🧒</div>
+              <h1 style="font-size:23px;margin-top:11px">Алихан<br><em>Сабыров</em></h1>
+              <p style="font-size:12px">4 года · 17 кг · 104 см · мальчик</p>
+            </div>
+
+            <div>
+              <span class="eyebrow">Дети</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row" aria-pressed="true"><span class="ic">🧒</span><span class="txt"><b>Алихан</b><small>4 года · активный профиль</small></span><span class="box">✓</span></button>
+                <button class="row" aria-pressed="false"><span class="ic">👧</span><span class="txt"><b>Амина</b><small>7 лет</small></span><span class="box"></span></button>
+                <button class="row"><span class="ic">＋</span><span class="txt"><b>Добавить ребёнка</b><small>вес, рост, аллергии</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Медкарта</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row"><span class="ic">💉</span><span class="txt"><b>Прививки</b><small>по календарю, 1 просрочена</small></span><span class="go">›</span></button>
+                <button class="row"><span class="ic">🌾</span><span class="txt"><b>Аллергии</b><small>пыльца берёзы</small></span><span class="go">›</span></button>
+                <button class="row"><span class="ic">📱</span><span class="txt"><b>QR для врача</b><small>показать историю на приёме</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div>
+              <span class="eyebrow">Приложение</span>
+              <div class="list" style="margin-top:9px">
+                <button class="row"><span class="ic">🌐</span><span class="txt"><b>Язык</b><small>Русский · Қазақша · English</small></span><span class="go">›</span></button>
+                <button class="row"><span class="ic">🔔</span><span class="txt"><b>Напоминания</b><small>температура каждые 4 часа</small></span><span class="go">›</span></button>
+                <button class="row"><span class="ic">🔒</span><span class="txt"><b>Данные и приватность</b><small>шифрование, выгрузка, удаление</small></span><span class="go">›</span></button>
+              </div>
+            </div>
+
+            <div class="note note-mint"><i>ℹ️</i><div>KidCheck не ставит диагноз и не заменяет врача. При ухудшении звоните 103.</div></div>
+          </section>
+
+        </div>
+
+        <nav class="tabbar">
+          <button data-tab="home" aria-current="true"><span class="ic">🏠</span>Главная</button>
+          <button data-tab="check" aria-current="false"><span class="ic">🩺</span>Проверка</button>
+          <button data-tab="history" aria-current="false"><span class="ic">🗂️</span>История</button>
+          <button data-tab="doctor" aria-current="false"><span class="ic">💬</span>Врач</button>
+          <button data-tab="profile" aria-current="false"><span class="ic">👤</span>Профиль</button>
+        </nav>
+        <div class="home-ind"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="meta">
+    <span class="kicker">Мобильное приложение · прототип v0.3</span>
+    <h1>KidCheck<br><em>для родителей</em></h1>
+    <p>Шесть экранов основного сценария: от главной до чата с педиатром. Нижняя панель и кнопки внутри экранов кликабельны.</p>
+
+    <div class="rail" role="tablist">
+      <button data-tab="home" aria-current="true"><span class="n">01</span>Главная</button>
+      <button data-tab="check" aria-current="false"><span class="n">02</span>Ввод симптомов</button>
+      <button data-tab="result" aria-current="false"><span class="n">03</span>Результат анализа</button>
+      <button data-tab="doctor" aria-current="false"><span class="n">04</span>Чат с педиатром</button>
+      <button data-tab="history" aria-current="false"><span class="n">05</span>История проверок</button>
+      <button data-tab="profile" aria-current="false"><span class="n">06</span>Профиль ребёнка</button>
+    </div>
+
+    <p class="hint">Симптомы в списке переключаются, стрелка «назад» и кнопки действий ведут по сценарию. Экран результата открывается из любой карточки истории.</p>
+  </aside>
+
+</div>
+
+<script>
+(function(){
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.app-screen'));
+  var navs = Array.prototype.slice.call(document.querySelectorAll('[data-tab]'));
+  var scroll = document.getElementById('scroll');
+  var valid = screens.map(function(s){ return s.dataset.screen; });
+  // result and doctor are reached through the flow; the tab bar maps doctor to its own tab
+  var tabFor = { home:'home', check:'check', result:'check', doctor:'doctor', history:'history', profile:'profile' };
+
+  function show(id){
+    if (valid.indexOf(id) === -1) { id = 'home'; }
+    screens.forEach(function(s){ s.hidden = (s.dataset.screen !== id); });
+    navs.forEach(function(b){
+      var match = b.closest('.rail') ? b.dataset.tab === id : b.dataset.tab === tabFor[id];
+      b.setAttribute('aria-current', String(!!match));
+    });
+    if (scroll) { scroll.scrollTop = 0; }
+  }
+
+  navs.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); }); });
+  document.querySelectorAll('[data-goto]').forEach(function(b){
+    b.addEventListener('click', function(){ show(b.dataset.goto); });
+  });
+
+  document.querySelectorAll('.row[aria-pressed], .seg button').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (el.parentElement && el.parentElement.classList.contains('seg')) {
+        el.parentElement.querySelectorAll('button').forEach(function(s){ s.setAttribute('aria-pressed','false'); });
+        el.setAttribute('aria-pressed','true');
+        return;
+      }
+      var on = el.getAttribute('aria-pressed') === 'true';
+      el.setAttribute('aria-pressed', String(!on));
+      var box = el.querySelector('.box');
+      if (box) { box.textContent = on ? '' : '✓'; }
+    });
+  });
+
+  var start = (location.hash || '').replace('#','');
+  show(valid.indexOf(start) !== -1 ? start : 'home');
+})();
+</script>
