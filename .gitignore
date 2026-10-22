@@ -1,0 +1,47 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
+build/
+
+# Data and models (large files are not committed)
+data/raw/
+data/interim/
+*.csv
+*.parquet
+*.pkl
+*.joblib
+*.h5
+!docs/**/*.csv
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
