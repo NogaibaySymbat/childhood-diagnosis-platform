@@ -91,7 +91,8 @@ Documentation, requirements and architecture. No runnable application yet; setup
 | [`docs/09-risks-and-management.md`](docs/09-risks-and-management.md) | Roles, milestones, risks |
 | [`docs/10-supervisor-feedback.md`](docs/10-supervisor-feedback.md) | Supervisor feedback and resulting changes |
 
-**Task tracker (YouTrack):** *link to be added*
+https://powerpuff.youtrack.cloud/projects/DIP
+
 
 ## Repository structure
 
