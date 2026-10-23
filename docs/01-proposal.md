@@ -25,8 +25,8 @@
 
 **Supervisor:** Yermaganbetova Madina Askarovna
 
-**Repository:** https://gitlab.com/powerpuff3/childhood-diagnosis-platform
-**Task tracker:** YouTrack — *link to be added*
+**Repository:** https://github.com/NogaibaySymbat/childhood-diagnosis-platform
+**Task tracker:** https://powerpuff.youtrack.cloud/projects/DIP
 
 ## 3. Problem statement
 
