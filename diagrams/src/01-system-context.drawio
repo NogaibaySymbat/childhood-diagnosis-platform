@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-24T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="01-system-context" name="System Context">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="e1" value="Symptoms, child profile,
+assessment request" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="platform">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="Urgency, red flags,
+ranked results" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="platform" target="parent">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="Queue actions,
+response to parent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="doctor" target="platform">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="Prioritised requests,
+child check history" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="platform" target="doctor">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="Approved triage rules,
+clinical knowledge" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="protocol" target="platform">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="Clinic locations,
+appointment details" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="clinics" target="platform">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="platform" value="KidCheck Platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#2671B8;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="570" y="300" width="430" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="parent" value="Parent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#CC9126;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="320" width="260" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="doctor" value="Pediatrician" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#418A5A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="320" width="270" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="protocol" value="Clinical protocols&lt;br&gt;Ministry of Health RK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1EAFE;strokeColor=#8462B5;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="520" y="680" width="340" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="clinics" value="Children’s clinic&lt;br&gt;directory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE8E6;strokeColor=#C6655D;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="980" y="680" width="300" height="125" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

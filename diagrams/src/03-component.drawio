@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-24T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="03-component" name="Component Architecture">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="c1" value="assessment request / result" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="client" target="gateway">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c2" value="rank candidates" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="rank">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c3" value="independent urgency check" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="triage">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c4" value="candidate set + symptom evidence" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="kb" target="rank">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c5" value="deterministic protocol rules" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="kb" target="triage">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c6" value="profiles, assessment, requests" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c7" value="queue and response actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="doctor" target="gateway">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="c8" value="triage always returned; ranking when available" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="client">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="client" value="Web / Mobile Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#CC9126;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="325" width="220" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="gateway" value="API Gateway&lt;br&gt;Assessment orchestration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#2671B8;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="365" y="315" width="255" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="rank" value="Ranking Model&lt;br&gt;Gradient boosting&lt;br&gt;candidate ranking only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1EAFE;strokeColor=#8462B5;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="760" y="170" width="270" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="triage" value="Triage Engine&lt;br&gt;Deterministic rules&lt;br&gt;urgency + red flags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE8E6;strokeColor=#C6655D;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="760" y="470" width="270" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="kb" value="Knowledge Base&lt;br&gt;conditions, symptoms,&lt;br&gt;protocol-derived rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#418A5A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="320" width="270" height="145" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="PostgreSQL&lt;br&gt;child profiles, check history,&lt;br&gt;requests and messages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2F6;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="365" y="650" width="290" height="135" as="geometry"/>
+        </mxCell>
+        <mxCell id="doctor" value="Doctor Dashboard&lt;br&gt;separate pediatrician UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#418A5A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="650" width="220" height="115" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
