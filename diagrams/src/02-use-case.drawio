@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-24T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="02-use-case" name="Use Cases in KidCheck Platform">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="u0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="profile">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="symptoms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="result">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="history">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="parent" target="request">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="doctor" target="queue">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="doctor" target="open">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="doctor" target="reply">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="u8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeColor=#52677D;strokeWidth=2;fontSize=13;fontColor=#263445;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="admin" target="kb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="parent" value="Parent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3D6;strokeColor=#CC9126;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="390" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="doctor" value="Pediatrician" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#418A5A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="340" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin" value="Administrator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1EAFE;strokeColor=#8462B5;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="650" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#91A0B3;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;fillOpacity=0;" vertex="1" parent="1">
+          <mxGeometry x="330" y="130" width="950" height="650" as="geometry"/>
+        </mxCell>
+        <mxCell id="profile" value="Create / manage&lt;br&gt;child profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="420" y="190" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="symptoms" value="Enter symptoms and&lt;br&gt;submit assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="700" y="190" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="result" value="View urgency, red flags&lt;br&gt;and ranked result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="980" y="190" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="history" value="View check history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="420" y="370" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="request" value="Send assessment to&lt;br&gt;pediatrician" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="700" y="370" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="queue" value="View prioritised&lt;br&gt;request queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="980" y="370" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="open" value="Open request and&lt;br&gt;child check history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="420" y="550" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="reply" value="Reply to parent and&lt;br&gt;close request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="700" y="550" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="kb" value="Edit symptom–condition&lt;br&gt;knowledge base" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#71839A;strokeWidth=2;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;shape=ellipse;" vertex="1" parent="1">
+          <mxGeometry x="980" y="550" width="230" height="100" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
