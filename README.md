@@ -66,11 +66,11 @@ top-3 accuracy ≥ 75 %, recall for urgent cases ≥ 90 %, median response time 
 
 | Layer | Choice |
 |---|---|
-| Backend | To be confirmed |
-| Data storage | To be confirmed |
-| Model | To be confirmed |
-| Frontend | To be confirmed |
-| Component interaction | To be confirmed |
+| Backend | FastAPI (Python) |
+| Data storage | PostgreSQL |
+| Model | Knowledge base + gradient boosting (hybrid) |
+| Frontend | React |
+| Component interaction | Modular monolith with an internal model service boundary |
 
 ## Current status
 
